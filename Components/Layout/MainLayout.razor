@@ -1,0 +1,223 @@
+﻿@inherits LayoutComponentBase
+
+<div class="main-layout">
+    <!-- Top Header -->
+    <header class="top-header fixed-top">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-md-3 col-6">
+                    <img src="images/logo.jpg" alt="ROBO MARKET" class="logo"/>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6 contact-section ml-auto">
+                    <div class="contact-info">
+                        <span><i class="fas fa-phone-alt" style="color: green; margin-right: 5px;"></i> 915555555</span><br>
+                        <span><i class="fab fa-telegram-plane" style="color: #0088cc; margin-right: 5px;"></i> robomarketuz</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-8 col-12 order-2 order-md-1">
+                    <form class="search-bar">
+                        <input type="text" class="form-control search-input" placeholder="Qidirish..." aria-label="Search">
+                        <select class="form-control category-select">
+                            <option>Barcha kategoriyalar</option>
+                        </select>
+                        <button class="btn btn-search" type="submit">
+                            <span class="search-icon">&#128269;</span>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6 text-lg-right icon-section order-1 order-md-2">
+                    <a href="#" class="icon-link">
+                        <span class="cart-icon">&#128722;</span>
+                        <span class="cart-badge">@cartItemCount</span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6 text-lg-right navbar-section order-1 order-md-2">
+                    <a href="javascript:void(0);" onclick="toggleMenu()" class="menu-toggle">
+                        <span class="navbar-icon">&#9776;</span> 
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header class="nav-header fixed-top" style="top: 100px;">
+        <nav class="nav-bar container-fluid">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home"></i> Bosh sahifa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news">
+                        <i class="fas fa-bolt"></i> Yangiliklar
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" onclick="toggleDropdown()">
+                        <i class="fas fa-list"></i> Kategoriyalar
+                    </a>
+                    <div id="categoryDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Kategoriya 1</a>
+                        <a class="dropdown-item" href="#">Kategoriya 2</a>
+                        <a class="dropdown-item" href="#">Kategoriya 3</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);" onclick="toggleContactModal()">
+                        <i class="fas fa-address-book"></i> Biz bilan aloqa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">
+                        <i class="fas fa-user-plus"></i> Registratsiya
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Modal Navigation Header -->
+    <div id="navModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleMenu()">&times;</span>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home"></i> Bosh sahifa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news">
+                        <i class="fas fa-bolt"></i> Yangiliklar
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" onclick="toggleModalDropdown()">
+                        <i class="fas fa-list"></i> Kategoriyalar
+                    </a>
+                    <div id="modalCategoryDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Kategoriya 1</a>
+                        <a class="dropdown-item" href="#">Kategoriya 2</a>
+                        <a class="dropdown-item" href="#">Kategoriya 3</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);" onclick="toggleContactModal()">
+                        <i class="fas fa-address-book"></i> Biz bilan aloqa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">
+                        <i class="fas fa-user-plus"></i> Registratsiya
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal Contact Header -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleContactModal()">&times;</span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Bizga bog'lanish uchun</h3>
+                        <p><strong>Manzilimiz:</strong> Qoraqamish 2/5 dahasi 5-A uy</p>
+                        <p><strong>Telefon:</strong> 915555555</p>
+                        <p><strong>Telegram:</strong> robomarketuz</p>
+                        <p><strong>Ish vaqti:</strong><br> Dushanba-shanba: 8:00 - 20:00<br> Yakshanba: Yopiq</p>
+                    </div>
+                    <div class="col-md-6">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.953298543944!2d144.95373531566988!3d-37.81627977975179!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf57763115c5a2edb!2sGoogle!5e0!3m2!1sen!2sau!4v1565279264733!5m2!1sen!2sau" width="100%" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main style="margin-top: 180px;">
+        @Body
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Yordam berish tartibi</h3>
+                    <p>Bizning professional texnik jamoamiz bilan sizga qanday bajarishni ko'rsatamiz.</p>
+                    <p>Bizga qo'ng'iroq qiling, telegramdan xabar yozishingiz yoki email yuborishingiz mumkin. Do'konimizga tashrif buyuring. Bizning sizga turli robototexnik va elektronika qurilmalarini oson yasash va tamirlashga yordam beramiz.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Biz bilan bog'lanish</h3>
+                    <p><strong>Telefon raqamimiz:</strong> 915555555</p>
+                    <p><strong>Telegram linkimiz:</strong> robomarketuz</p>
+                    <p><strong>Bizning emailimiz:</strong> robomarket@gmail.com</p>
+                    <p><strong>Bizning manzilimiz:</strong> Toshkent sh. Olmazor tumani Qoraqamish 2/5 dahasi 5-A uy</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Bizning ofisimiz</h3>
+                    <p>Bizi quyidagi ijtimoiy tarmoqlar orqali kuzatib boring:</p>
+                    <a href="#"><i class="fab fa-youtube"></i> Robomarketuz kanali</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Robomarketuz sahifasi</a><br>
+                    <a href="#"><i class="fab fa-telegram"></i> robomarketuz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+@code {
+    private int cartItemCount = 1; 
+}
+
+<script>
+    function toggleMenu() {
+        var modal = document.getElementById("navModal");
+        if (modal.style.display === "none" || modal.style.display === "") {
+            modal.style.display = "block";
+        } else {
+            modal.style.display = "none";
+        }
+    }
+
+    function toggleDropdown() {
+        var dropdown = document.getElementById("categoryDropdown");
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+
+    function toggleModalDropdown() {
+        var dropdown = document.getElementById("modalCategoryDropdown");
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+
+    function toggleContactModal() {
+        var modal = document.getElementById("contactModal");
+        if (modal.style.display === "none" || modal.style.display === "") {
+            modal.style.display = "block";
+        } else {
+            modal.style.display = "none";
+        }
+    }
+</script>
+

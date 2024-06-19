@@ -1,0 +1,32 @@
+@page "/login"
+
+<div class="login-page">
+    <div class="login-container">
+        <h1>Login</h1>
+        <p>Iltimos Telefon raqamingiz va Parolingizni kiriting</p>
+        <form>
+            <div class="form-group">
+                <label for="phone">
+                    <i class="fas fa-phone"></i>
+                </label>
+                <input type="text" id="phone" placeholder="Telefon raqami" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i>
+                </label>
+                <input type="password" id="password" placeholder="Parol" class="form-control" />
+            </div>
+            <div class="form-group text-right">
+                <a href="/register">Parolni unutdingizmi?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <div class="register-link">
+            <p>Hali a'zo emasmisiz? <a href="/register">Ro'yxatdan o'tish!</a></p>
+        </div>
+    </div>
+</div>
+
+

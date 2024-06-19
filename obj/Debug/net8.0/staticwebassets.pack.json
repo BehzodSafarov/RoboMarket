@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\RoboMarketPro.bundle.scp.css",
+      "PackagePath": "staticwebassets\\RoboMarketPro.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\images\\arduino.jpg",
+      "PackagePath": "staticwebassets\\images\\arduino.jpg"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\images\\home.jpg",
+      "PackagePath": "staticwebassets\\images\\home.jpg"
+    },
+    {
+      "Id": "D:\\Lab\\RoboMarketPro\\wwwroot\\images\\logo.jpg",
+      "PackagePath": "staticwebassets\\images\\logo.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RoboMarketPro.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.RoboMarketPro.props",
+      "PackagePath": "build\\RoboMarketPro.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.RoboMarketPro.props",
+      "PackagePath": "buildMultiTargeting\\RoboMarketPro.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.RoboMarketPro.props",
+      "PackagePath": "buildTransitive\\RoboMarketPro.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

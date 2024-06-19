@@ -1,0 +1,42 @@
+﻿@page "/"
+
+<div class="home-page">
+    <div class="home-container">
+        <div class="products-grid">
+            @foreach (var product in Products)
+            {
+                <div class="product-card">
+                    <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                    <h2 class="product-title">@product.Name</h2>
+                    <p class="product-status">Sotuvda @product.Stock ta bor</p>
+                    <p class="product-price">@product.Price so'm</p>
+                    <button class="btn btn-primary">Savatchaga</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Product> Products = new List<Product>
+    {
+        new Product { ImageUrl = "images/arduino.jpg", Name = "1/4 W Carbon Film Resistor (To'plamda 10 ta)", Stock = 162, Price = 31000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Arduino Uno R3 asosiy bloki", Stock = 162, Price = 105000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Beardboard", Stock = 162, Price = 70000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Potensiometr", Stock = 162, Price = 39000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "5mmli led (To'plamda 10 ta)", Stock = 162, Price = 47000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "WiFi va Bluetooth bilan ESP32 ishlab chiqish platasi", Stock = 162, Price = 39000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Vero board", Stock = 162, Price = 29000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Jumper kabeli", Stock = 162, Price = 19000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "35 V elektr kondensatori (To'plamda 10 ta)", Stock = 162, Price = 38000 },
+        new Product { ImageUrl = "images/arduino.jpg", Name = "Bloklash uzish kondensatori (To'plamda 10 ta)", Stock = 162, Price = 33000 }
+    };
+
+    public class Product
+    {
+        public string ImageUrl { get; set; }
+        public string Name { get; set; }
+        public int Stock { get; set; }
+        public int Price { get; set; }
+    }
+}
