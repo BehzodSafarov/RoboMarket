@@ -1,42 +1,67 @@
 ﻿@page "/"
+@using System.Collections.Generic
+@using Microsoft.Extensions.Caching.Memory
+@using RoboMarketPro.Services
+@inject NavigationManager Navigation
+@inject IMemoryCache MemoryCache
+@* @inject IProductService productService *@
 
-<div class="home-page">
-    <div class="home-container">
-        <div class="products-grid">
-            @foreach (var product in Products)
-            {
-                <div class="product-card">
-                    <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
-                    <h2 class="product-title">@product.Name</h2>
-                    <p class="product-status">Sotuvda @product.Stock ta bor</p>
-                    <p class="product-price">@product.Price so'm</p>
-                    <button class="btn btn-primary">Savatchaga</button>
-                </div>
-            }
-        </div>
+<div class="container my-4">
+    <div class="row">
+        @foreach (var product in Products)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <NavLink class="text-decoration-none" href="@($"/product/{product.Id}")">
+                    <div class="card h-100 product-card">
+                        <div class="card-image-wrapper">
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text text-success">Sotuvda @product.Stock ta bor</p>
+                            <p class="card-text">@product.Price so’m</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary btn-block">Savatchaga</button>
+                            </div>
+                        </div>
+                    </div>
+                </NavLink>
+            </div>
+        }
     </div>
 </div>
 
 @code {
+
+   @* public  List<Product>  GetProducts()
+    {
+       if (MemoryCache.TryGetValue("CurrentValue", out string cachedValue))
+        {
+            Console.WriteLine($"Cached Value: {cachedValue}");
+
+            var products = productService.GetAllProductsAsync(cate);
+        } 
+    } *@
     private List<Product> Products = new List<Product>
     {
-        new Product { ImageUrl = "images/arduino.jpg", Name = "1/4 W Carbon Film Resistor (To'plamda 10 ta)", Stock = 162, Price = 31000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Arduino Uno R3 asosiy bloki", Stock = 162, Price = 105000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Beardboard", Stock = 162, Price = 70000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Potensiometr", Stock = 162, Price = 39000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "5mmli led (To'plamda 10 ta)", Stock = 162, Price = 47000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "WiFi va Bluetooth bilan ESP32 ishlab chiqish platasi", Stock = 162, Price = 39000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Vero board", Stock = 162, Price = 29000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Jumper kabeli", Stock = 162, Price = 19000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "35 V elektr kondensatori (To'plamda 10 ta)", Stock = 162, Price = 38000 },
-        new Product { ImageUrl = "images/arduino.jpg", Name = "Bloklash uzish kondensatori (To'plamda 10 ta)", Stock = 162, Price = 33000 }
+        new Product { Id = 1, Name = "1/4 W Carbon Film Resistor (To'plamda 10 ta)", Stock = 162, Price = 31000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 2, Name = "Arduino Uno R3 asosiy bloki", Stock = 162, Price = 105000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 3, Name = "Breadboard", Stock = 162, Price = 70000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 4, Name = "Potensiometr", Stock = 162, Price = 39000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 5, Name = "5mmli led (To'plamda 10 ta)", Stock = 162, Price = 47000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 6, Name = "WiFi va Bluetooth bilan ESP32 ishlab chiqish platasi", Stock = 162, Price = 39000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 7, Name = "Vero board", Stock = 162, Price = 29000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 8, Name = "Jumper kabellari", Stock = 162, Price = 19000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 9, Name = "35 V elektr kondensatori (To'plamda 10 ta)", Stock = 162, Price = 38000, ImageUrl = "images/arduino.jpg" },
+        new Product { Id = 10, Name = "Bloklash uzish kondensatori (To'plamda 10 ta)", Stock = 162, Price = 33000, ImageUrl = "images/arduino.jpg" }
     };
 
     public class Product
     {
-        public string ImageUrl { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Stock { get; set; }
         public int Price { get; set; }
+        public string ImageUrl { get; set; }
     }
-}
+} 

@@ -1,92 +1,45 @@
-    .home-page {
-        padding: 20px;
-        background-color: #f9f9f9;
+    .card-img-top {
+        height: 150px;
+        object-fit: cover;
+        transition: transform 0.3s;
+        width: 100%; /* Ensure image covers the card width */
     }
 
-    .home-container {
-        max-width: 1200px;
-        margin: 0 auto;
+    .card-img-top:hover {
+        transform: scale(1.05);
     }
 
-    .main-title {
-        font-size: 2rem;
-        text-align: center;
-        margin-bottom: 20px;
-        color: #343a40;
+    .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem; /* Add space below the title */
     }
 
-    .main-subtitle {
-        font-size: 1.2rem;
-        text-align: center;
-        margin-bottom: 40px;
-        color: #6c757d;
+    .card-text {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem; /* Add space below text */
     }
 
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
+    .btn-block {
+        font-size: 0.875rem;
     }
 
     .product-card {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        padding: 20px;
-        text-align: center;
-    }
-
-    .product-image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
-
-    .product-title {
-        font-size: 1.2rem;
-        color: #343a40;
-        margin-bottom: 10px;
-    }
-
-    .product-status {
-        font-size: 1rem;
-        color: #28a745;
-        margin-bottom: 5px;
-    }
-
-    .product-price {
-        font-size: 1.2rem;
-        color: #343a40;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: #1A73E8;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        font-size: 1rem;
-        border-radius: 5px;
         cursor: pointer;
-        width: 100%;
+        transition: box-shadow 0.3s;
+        display: flex;
+        flex-direction: column; /* Ensure column layout */
     }
 
-    .btn-primary:hover {
-        background-color: #1558b0;
+    .product-card:hover {
+        box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
     }
 
-    @media (max-width: 576px) {
-        .main-title {
-            font-size: 1.5rem;
-        }
-
-        .main-subtitle {
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-        }
+    .card-image-wrapper {
+        height: 150px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa; /* Light background to ensure visibility */
     }

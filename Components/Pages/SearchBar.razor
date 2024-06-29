@@ -1,0 +1,39 @@
+@page "/searchbar"
+
+<h3>Change Tracker</h3>
+
+<InputText @bind-value="inputValue" @oninput="HandleInput" />
+
+<p>Current Value: @CurrentValue</p>
+
+@code {
+    private string inputValue;
+
+    private string currentValue;
+
+    public string CurrentValue
+    {
+        get => currentValue;
+        set
+        {
+            if (currentValue != value)
+            {
+                currentValue = value;
+                OnCurrentValueChanged();
+            }
+        }
+    }
+
+    private void HandleInput(ChangeEventArgs e)
+    {
+        inputValue = e.Value.ToString();
+        CurrentValue = inputValue;
+    }
+
+    private void OnCurrentValueChanged()
+    {
+        // Place your logic here
+        Console.WriteLine($"CurrentValue has been changed to: {currentValue}");
+        // You can also use other actions, e.g., updating a UI element, making an API call, etc.
+    }
+}

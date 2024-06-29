@@ -1,38 +1,137 @@
 @page "/register"
+@using RoboMarketPro.Services
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject IUserService authService
 
-<div class="register-page">
-    <div class="register-container">
+<div class="login-page">
+    <div class="login-container">
         <h1>Register</h1>
-        <p>Iltimos Telefon raqamingiz va Parolingizni kiriting</p>
-        <form>
+        <p>Iltimos O'z hisobingizni yarating</p>
+        
+        <EditForm FormName="loginForm" Model="this" OnSubmit="Submit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            @if (!string.IsNullOrEmpty(PhoneError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @PhoneError
+                </div>
+            }
             <div class="form-group">
-                <label for="phone">
-                    <i class="fas fa-phone"></i>
-                </label>
-                <input type="text" id="phone" placeholder="Telefon raqami" class="form-control" />
+                <InputText id="phone" class="form-control phone-number-input" @bind-Value="PhoneNumber" placeholder="Phone Number" />
+               
             </div>
+            @if (!string.IsNullOrEmpty(PasswordError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @PasswordError
+                </div>
+            }
             <div class="form-group">
-                <label for="password">
-                    <i class="fas fa-lock"></i>
-                </label>
-                <input type="password" id="password" placeholder="Parol" class="form-control" />
+                <InputText id="password" placeholder="Yangi Password" type="password" class="form-control" @bind-Value="Password" />
             </div>
+            
+            @if (!string.IsNullOrEmpty(ConfirmPasswordError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ConfirmPasswordError
+                </div>
+            }
             <div class="form-group">
-                <label for="confirmPassword">
-                    <i class="fas fa-lock"></i>
-                </label>
-                <input type="password" id="confirmPassword" placeholder="Parolni qayta kiriting" class="form-control" />
+                <InputText id="password" placeholder="Passwordni takrorlang " type="password" class="form-control" @bind-Value="ConfirmPassword" />
             </div>
             <div class="form-group text-right">
-                <a href="#">Parolni unutdingizmi?</a>
+                <a href="#">Forgot password?</a>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Register</button>
-        </form>
+        </EditForm>
 
-        <div class="login-link">
-            <p>Hali a'zo emasmisiz? <a href="/login">Login</a></p>
+            @if (!string.IsNullOrEmpty(ConfirmPasswordError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ConfirmPasswordError
+                </div>
+            }
+
+        <div class="register-link">
+            <p> Ro'yxatdan o'tganman <a href="/login">Login</a></p>
         </div>
+    using RoboMarketPro.Services;
     </div>
 </div>
 
+@code {
+    [SupplyParameterFromForm]
+    public string PhoneNumber { get; set; } = string.Empty;
 
+    [SupplyParameterFromForm]
+    public string Password { get; set; } = string.Empty;
+
+    [SupplyParameterFromForm]
+    public string ConfirmPassword { get; set; } = string.Empty;
+
+    public string PhoneError { get; set; } = string.Empty;
+    public string PasswordError { get; set; } = string.Empty;
+    public string ConfirmPasswordError { get; set; } = string.Empty;
+   
+    private void Submit()
+    {
+        ClearErrors();
+
+        bool isValid = ValidateForm();
+
+        if (isValid)
+        {
+             authService.RegisterAsync(PhoneNumber, Password);
+             
+             NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private void ClearErrors()
+    {
+        PhoneError = string.Empty;
+        PasswordError = string.Empty;
+        ConfirmPasswordError = string.Empty;
+    }
+
+    private bool ValidateForm()
+    {
+        bool isValid = true;
+
+        if (string.IsNullOrEmpty(PhoneNumber))
+        {
+            PhoneError = "Telefon raqami kiritilishi shart.";
+            isValid = false;
+        }
+        else if (!System.Text.RegularExpressions.Regex.IsMatch(PhoneNumber, "9"))
+        {
+            PhoneError = "Telefon raqami 912384625 formatda bo'lishi shart.";
+            isValid = false;
+        }
+
+        if (string.IsNullOrEmpty(Password))
+        {
+            PasswordError = "Parol kiritilishi shart.";
+            isValid = false;
+        }
+        else if (Password.Length < 6)
+        {
+            PasswordError = "Parol kamida 6 ta belgidan iborat bo'lishi kerak.";
+            isValid = false;
+        }
+
+        if (Password != ConfirmPassword)
+        {
+            ConfirmPasswordError = "Parollar mos emas.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToTop");
+    }
+}

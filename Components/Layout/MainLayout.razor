@@ -1,5 +1,6 @@
-﻿@inherits LayoutComponentBase
-
+﻿@using Microsoft.Extensions.Caching.Memory
+@inherits LayoutComponentBase
+@inject IMemoryCache MemoryCache
 <div class="main-layout">
     <!-- Top Header -->
     <header class="top-header fixed-top">
@@ -15,18 +16,21 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-8 col-12 order-2 order-md-1">
-                    <form class="search-bar">
-                        <input type="text" class="form-control search-input" placeholder="Qidirish..." aria-label="Search">
-                        <select class="form-control category-select">
-                            <option>Barcha kategoriyalar</option>
-                        </select>
-                        <button class="btn btn-search" type="submit">
-                            <span class="search-icon">&#128269;</span>
-                        </button>
-                    </form>
+                    <EditForm FormName="searchForm" Model="this" OnSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="search-bar d-flex">
+                            <InputText class="form-control search-input" @bind-Value="SearchText" placeholder="Qidirish..." />
+                            <button id="searchButton" class="btn btn-search" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </EditForm>
                 </div>
+
+
                 <div class="col-lg-3 col-md-4 col-6 text-lg-right icon-section order-1 order-md-2">
-                    <a href="#" class="icon-link">
+                    <a href="javascript:void(0);" onclick="toggleCartModal()" class="icon-link">
                         <span class="cart-icon">&#128722;</span>
                         <span class="cart-badge">@cartItemCount</span>
                     </a>
@@ -40,6 +44,7 @@
         </div>
     </header>
 
+    <!-- Navigation Header -->
     <header class="nav-header fixed-top" style="top: 100px;">
         <nav class="nav-bar container-fluid">
             <ul class="nav justify-content-center">
@@ -57,11 +62,7 @@
                     <a class="nav-link dropdown-toggle" href="javascript:void(0);" onclick="toggleDropdown()">
                         <i class="fas fa-list"></i> Kategoriyalar
                     </a>
-                    <div id="categoryDropdown" class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Kategoriya 1</a>
-                        <a class="dropdown-item" href="#">Kategoriya 2</a>
-                        <a class="dropdown-item" href="#">Kategoriya 3</a>
-                    </div>
+                     @* <TelerikDropDownList Data="@categories" @bind-Value="CategoryText" /> *@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);" onclick="toggleContactModal()">
@@ -82,8 +83,25 @@
         </nav>
     </header>
 
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCartModal()">&times;</span>
+            <h2>Cart Items</h2>
+            <div class="cart-items">
+                @foreach (var item in cartItems)
+                {
+                    <div class="cart-item" onclick="navigateToProduct(@item.Id)">
+                        <span>@item.Name</span>
+                        <span>x @item.Count</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Navigation Header -->
-    <div id="navModal" class="modal">
+    <div id="navModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content">
             <span class="close" onclick="toggleMenu()">&times;</span>
             <ul class="nav flex-column">
@@ -127,7 +145,7 @@
     </div>
 
     <!-- Modal Contact Header -->
-    <div id="contactModal" class="modal">
+    <div id="contactModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content">
             <span class="close" onclick="toggleContactModal()">&times;</span>
             <div class="container">
@@ -179,45 +197,101 @@
     </footer>
 </div>
 
-@code {
-    private int cartItemCount = 1; 
-}
-
 <script>
     function toggleMenu() {
         var modal = document.getElementById("navModal");
-        if (modal.style.display === "none" || modal.style.display === "") {
-            modal.style.display = "block";
-        } else {
-            modal.style.display = "none";
-        }
+        modal.style.display = (modal.style.display === "none" || modal.style.display === "") ? "block" : "none";
     }
 
     function toggleDropdown() {
         var dropdown = document.getElementById("categoryDropdown");
-        if (dropdown.style.display === "none" || dropdown.style.display === "") {
-            dropdown.style.display = "block";
-        } else {
-            dropdown.style.display = "none";
-        }
+        dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
     }
 
     function toggleModalDropdown() {
         var dropdown = document.getElementById("modalCategoryDropdown");
-        if (dropdown.style.display === "none" || dropdown.style.display === "") {
-            dropdown.style.display = "block";
-        } else {
-            dropdown.style.display = "none";
-        }
+        dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
     }
 
     function toggleContactModal() {
         var modal = document.getElementById("contactModal");
-        if (modal.style.display === "none" || modal.style.display === "") {
-            modal.style.display = "block";
-        } else {
-            modal.style.display = "none";
+        modal.style.display = (modal.style.display === "none" || modal.style.display === "") ? "block" : "none";
+    }
+
+    function toggleCartModal() {
+        var modal = document.getElementById("cartModal");
+        modal.style.display = (modal.style.display === "block") ? "none" : "block";
+    }
+
+    function closeModal(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
         }
+    }
+
+    function navigateToProduct(productId) {
+        window.location.href = "/product/" + productId;
     }
 </script>
 
+@code {
+    private SearchModel searchModel = new SearchModel();
+    [SupplyParameterFromForm]
+    public string? SearchText {get; set;}
+    [SupplyParameterFromForm]
+    public string? CategoryText {get; set;}
+
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine($"Search Text: {SearchText}");
+        Console.WriteLine($"Selected Category: {CategoryText}");
+       
+        MemoryCache.Set("CurrentValue", SearchText, new MemoryCacheEntryOptions
+        {
+            SlidingExpiration = TimeSpan.FromMinutes(1)
+        });
+    }
+
+    private void SelectCategory(string category)
+    {
+        Console.WriteLine($"Selected Category: {category}");
+    }
+    public class SearchModel
+    {
+        public string SearchText { get; set; }
+        public string Category { get; set; }
+    }
+    private int cartItemCount = 1;
+
+    // Mock data for cart items
+    private List<CartItem> cartItems = new List<CartItem>
+    {
+        new CartItem { Id = 1, Name = "Product 1", Count = 2 },
+        new CartItem { Id = 2, Name = "Product 2", Count = 1 },
+        new CartItem { Id = 3, Name = "Product 3", Count = 5 }
+    };
+
+    private List<Category> categories = new List<Category>
+    {
+        new Category {Name = "Arduino "},
+        new Category {Name = "Rasbery "},
+        new Category {Name = "Others"}
+    };
+    private void navigateToProduct(int productId)
+    {
+        @* NavigationManager.NavigateTo($"/product/{productId}"); *@
+    }
+
+    public class CartItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
+
+    public class Category
+    {
+        public string Name { get; set; }
+    }
+}

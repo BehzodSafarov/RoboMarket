@@ -1,0 +1,118 @@
+@page "/product/{Id:int}"
+@using System.Globalization
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Product product;
+    private int quantity = 1;
+    private string modalMessage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        product = Products.FirstOrDefault(p => p.Id == Id);
+    }
+
+    private async Task AddToCart()
+    {
+        modalMessage = $"Added {quantity} of {product.Name} to cart.";
+        quantity = 1;
+        await JSRuntime.InvokeVoidAsync("showModal");
+    }
+
+    private void IncrementQuantity()
+    {
+        if (quantity < product.Stock)
+        {
+            quantity++;
+            StateHasChanged();
+        }
+    }
+
+    private void DecrementQuantity()
+    {
+        if (quantity > 1)
+        {
+            quantity--;
+            StateHasChanged();
+        }
+    }
+
+    private List<Product> Products = new List<Product>
+    {
+        new Product { Id = 1, ImageUrl = "images/arduino.jpg", Name = "1/4 W Carbon Film Resistor (To'plamda 10 ta)", Stock = 162, Price = 31000 },
+        new Product { Id = 2, ImageUrl = "images/arduino.jpg", Name = "Arduino Uno R3 asosiy bloki", Stock = 10, Price = 105000 },
+        new Product { Id = 3, ImageUrl = "images/arduino.jpg", Name = "Beardboard", Stock = 162, Price = 70000 },
+        new Product { Id = 4, ImageUrl = "images/arduino.jpg", Name = "Potensiometr", Stock = 162, Price = 39000 },
+        new Product { Id = 5, ImageUrl = "images/arduino.jpg", Name = "5mmli led (To'plamda 10 ta)", Stock = 162, Price = 47000 },
+        new Product { Id = 6, ImageUrl = "images/arduino.jpg", Name = "WiFi va Bluetooth bilan ESP32 ishlab chiqish platasi", Stock = 162, Price = 39000 },
+        new Product { Id = 7, ImageUrl = "images/arduino.jpg", Name = "Vero board", Stock = 162, Price = 29000 },
+        new Product { Id = 8, ImageUrl = "images/arduino.jpg", Name = "Jumper kabeli", Stock = 162, Price = 19000 },
+        new Product { Id = 9, ImageUrl = "images/arduino.jpg", Name = "35 V elektr kondensatori (To'plamda 10 ta)", Stock = 162, Price = 38000 },
+        new Product { Id = 10, ImageUrl = "images/arduino.jpg", Name = "Bloklash uzish kondensatori (To'plamda 10 ta)", Stock = 162, Price = 33000 }
+    };
+
+    public class Product
+    {
+        public int Id { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Name { get; set; }
+        public int Stock { get; set; }
+        public int Price { get; set; }
+    }
+}
+
+<div class="product-detail-page">
+    @if (product != null)
+    {
+        <div class="product-detail-container">
+            <div class="product-detail-image">
+                <img src="@product.ImageUrl" alt="@product.Name" />
+            </div>
+            <div class="product-detail-info">
+                <h1>@product.Name</h1>
+                <p class="product-price">Narxi: @product.Price.ToString("N0", CultureInfo.InvariantCulture) so'm</p>
+                <p class="product-shipping">Bu narx ichida yetkazib berishni hisobga olmaydi</p>
+                <div class="product-quantity">
+                    <span>Miqdori: </span>
+                    <button class="quantity-btn" @onclick="DecrementQuantity">-</button>
+                    <span class="quantity-number">@quantity</span>
+                    <button class="quantity-btn" @onclick="IncrementQuantity">+</button>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" @onclick="AddToCart">Savatchaga qo'shish</button>
+                </div>
+                <p class="product-stock">Sotuvda @product.Stock ta bor</p>
+                <div class="product-description">
+                    <h2>ESP32 ishlab chiqish platasi</h2>
+                    <p>Ushbu ESP32 ishlab chiqish platasi bitta chipda ikki yadroli protsessor, Wi-Fi va Bluetooth mavjud bo'lgan ESP Wroom mikrokontroller platasidan foydalanadi.</p>
+                    <p>WiFi va Bluetooth-ga ega ESP32 ishlab chiqish platasida kuchlanish regulatorlari va kuchlanish pinoutlari ham mavjud. Ushbu mikrokontrollerlar haqida juda ko'p qo'shimcha ma'lumotlar mavjud.</p>
+                    <p>ESP32 uskuna dizayni tarmoqqa asoslangan tizimga integratsiyalashishni boshlash uchun mukammal tanlovdir, bunda ESP tarmoq qobiliyati oraliq sensorimizga ma'lumotlarni bulutga asoslangan kirish tacha bo'ladi.</p>
+                    <p>ESP32 yordamida siz barcha sensor ma'lumotlaringizni global xavfsiz tarmoq serveringizda saqlashingiz mumkin. ESP32, yuqorida aytib o'tilgandek, ikki yadroli protsessorga ega bo'lib, uni har bir protsessoriga yuklab tushirish imkonini beradi. Bu bir vaqtnig o'zida bir nechta vazifalarni bajara oladi.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Mahsulot topilmadi</p>
+    }
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @modalMessage
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <!-- Include FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <HeadOutlet />
 </head>
 <body>
@@ -17,5 +18,20 @@
     <script src="_framework/blazor.web.js"></script>
     <!-- Include Bootstrap JavaScript bundle -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showCheckoutModal() {
+            var modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+            modal.show();
+        }
+        
+        function showModal() {
+            var modal = new bootstrap.Modal(document.getElementById('messageModal'));
+            modal.show();
+            setTimeout(function() {
+                modal.hide();
+                location.reload(); // Refresh the page after the modal hides
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
